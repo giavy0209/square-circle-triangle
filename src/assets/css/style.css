@@ -33,7 +33,7 @@ img{
     top: 50px;
     left: 0;
     background-color: #fff;
-    height: calc(30% - 50px);
+    height: calc(40% - 50px);
 }
 
 .monster-hp-bar{
@@ -62,20 +62,262 @@ img{
     100% {transform: translate3d(-50%,-100%,0) scale3d(1.5,.7,1);}
 }
 .monster{
-    width: 70px;
-    height: 70px;
-    background-color: #ff0000;
-    border: 1px solid #000;
     bottom: 0;
     position: absolute;
     left: 50%;
     transform: translate(-50% , 0);
     animation: jump .5s linear alternate infinite;
     transform-origin: 50% 50%;
-    transition: opacity .9s ease;
+    transition: opacity .5s ease;
     opacity: 1;
 }
 
+.monster-1{
+    width: 70px;
+    height: 70px;
+    background-color: #ff0000;
+}
+
+.monster-2{
+    width: 140px;
+    height: 70px;
+    background-color: #ff0000;
+}
+
+.monster-3{
+    width: 140px;
+    height: 70px;
+    border-radius: 100px / 50px;
+    background-color: #ff0000;
+}
+.monster-4{
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+    background-color: #ff0000;
+}
+.monster-5{
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid red;
+}
+.monster-6{
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-top: 100px solid red;
+}
+.monster-7{
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-right: 100px solid red;
+    border-bottom: 50px solid transparent;
+}
+
+.monster-8{
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-left: 100px solid red;
+    border-bottom: 50px solid transparent;
+}
+
+.monster-9{
+    width: 0;
+    height: 0;
+    border-top: 100px solid red;
+    border-right: 100px solid transparent;
+}
+.monster-10{
+    width: 0;
+    height: 0;
+    border-top: 100px solid red;
+    border-left: 100px solid transparent;   
+}
+.monster-11{
+    width: 0;
+    height: 0;
+    border-bottom: 100px solid red;
+    border-right: 100px solid transparent;
+}
+.monster-12{
+    width: 0;
+    height: 0;
+    border-bottom: 100px solid red;
+    border-left: 100px solid transparent;
+}
+.monster-13{
+    border-bottom: 100px solid red;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    height: 0;
+    width: 100px;
+}
+.monster-14{
+    width: 150px;
+    height: 70px;
+    transform: skew(20deg);
+    background: red;
+}
+.monster-15{
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid red;
+    position: absolute;
+}
+.monster-15:after {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-top: 100px solid red;
+    position: absolute;
+    content: "";
+    top: 30px;
+    left: -50px;
+  }
+.monster-16{
+    margin: 50px 0;
+    position: absolute;
+    display: block;
+    color: red;
+    width: 0px;
+    height: 0px;
+    border-right: 100px solid transparent;
+    border-bottom: 70px solid red;
+    border-left: 100px solid transparent;
+}
+.monster-16:before {
+    border-bottom: 80px solid red;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    position: absolute;
+    height: 0;
+    width: 0;
+    top: -45px;
+    left: -65px;
+    display: block;
+    content: '';
+    transform: rotate(-35deg);
+}
+.monster-16:after {
+    position: absolute;
+    display: block;
+    color: red;
+    top: 3px;
+    left: -105px;
+    width: 0px;
+    height: 0px;
+    border-right: 100px solid transparent;
+    border-bottom: 70px solid red;
+    border-left: 100px solid transparent;
+    transform: rotate(-70deg);
+    content: '';
+  }
+
+.monster-17{
+    position: absolute;
+    width: 54px;
+    box-sizing: content-box;
+    border-width: 50px 18px 0;
+    border-style: solid;
+    border-color: red transparent;
+}
+.monster-17:before {
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 0;
+    top: -85px;
+    left: -18px;
+    border-width: 0 45px 35px;
+    border-style: solid;
+    border-color: transparent transparent red;
+}
+.monster-18{
+    width: 100px;
+    height: 55px;
+    background: red;
+    position: absolute;
+}
+
+.monster-18:before {
+    content: "";
+    position: absolute;
+    top: -25px;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 25px solid red;
+  }
+
+.monster-18:after {
+    content: "";
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-top: 25px solid red;
+  }
+
+.monster-19{
+    width: 100px;
+    height: 100px;
+    background: red;
+    position: absolute;
+}
+
+.monster-19:before {
+    content: "";
+    width: 100px;
+    height: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-bottom: 29px solid red;
+    border-left: 29px solid transparent;
+    border-right: 29px solid transparent;
+  }
+
+.monster-19:after {
+    content: "";
+    width: 100px;
+    height: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 29px solid red;
+    border-left: 29px solid #eee;
+    border-right: 29px solid #eee;
+  }  
+.monster-20{
+    width: 0;
+    height: 0;
+    border: 50px solid transparent;
+    border-bottom-color: red;
+    position: absolute;
+}
+.monster-20:after {
+    content: '';
+    position: absolute;
+    left: -50px;
+    top: 50px;
+    width: 0;
+    height: 0;
+    border: 50px solid transparent;
+    border-top-color: red;
+  }
 .bird-zone{
     position: absolute;
     top: 20%;
@@ -115,9 +357,9 @@ img{
 }
 
 .tank-zone{
-    top: 30%;
+    top: 40%;
     left: 0;
-    height: 40%;
+    height: 30%;
     background-color: #29ff25;
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
@@ -178,6 +420,7 @@ img{
     border: 1px solid #000;
     background-color:  blue;
     border-radius: 50%;
+    transform: translate(-50% , -50%);
 }
 
 .upgrade-zone{

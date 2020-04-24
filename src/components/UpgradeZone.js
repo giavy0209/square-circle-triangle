@@ -15,6 +15,13 @@ function App({Gold,setGold,TankState,setTankState}) {
         })
     }
   },[TankState,Gold])
+
+  const increaseFireRate = useCallback(()=>{
+    setTankState({
+        ...TankState,
+        firerate : TankState.firerate / 2
+    })
+  },[TankState,Gold])
   return (
     <div className="upgrade-zone">
         <p> gold =  {Gold} </p>
@@ -22,6 +29,10 @@ function App({Gold,setGold,TankState,setTankState}) {
         onClick={increaseDmg}
         >
             Tăng damage + {Math.ceil(TankState.dmg * TankState.dmgLV / 100)} - Price : {TankState.dmgPrice} - LV = {TankState.dmgLV}
+        </button>
+        <button
+        onClick={increaseFireRate}>
+            Tăng tốc độ bắn - Tốc độ hiện tại : {1000 / TankState.firerate } / s
         </button>
     </div>
   );

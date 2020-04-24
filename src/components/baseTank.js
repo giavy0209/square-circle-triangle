@@ -2,7 +2,7 @@ const tank = {
     dmg : 1,
     dmgLV : 1,
     dmgPrice : 10,
-    firerate: 1000,
+    firerate: 2000,
     firerateLV : 1,
     critChance : 0,
     critChanceLV : 1,

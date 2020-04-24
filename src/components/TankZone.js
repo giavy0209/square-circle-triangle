@@ -2,14 +2,30 @@ import React , { useEffect, useState , useCallback,useRef} from 'react';
 import Tank from './Tank'
 import Bullet from './Bullet'
 import useInterval from './useInterval'
+var timeOut;
 
-
-function App({hitMonster}) {
+function App({hitMonster,TankState,setTankState,IsMonsterDead}) {
     const [TankMove, setTankMove] = useState({position: 0, dirrectLeft: false})
     
     const [ListBullet,setListBullet] = useState([])
     const [ListBulletMove,setListBulletMove] = useState([])
     const [ListBulletPosition,setListBulletPosition] = useState([])
+
+    useEffect(()=>{
+        document.querySelector('.tank-zone').addEventListener('click',()=>{
+            clearTimeout(timeOut)
+            setTankState({
+                ...TankState,
+                firerate : TankState.firerate / 10
+            })
+            timeOut = setTimeout(() => {
+                setTankState({
+                    ...TankState,
+                    firerate : TankState.firerate
+                })
+            }, 500);
+        })
+    },[])
 
     useInterval(()=>{
         var tankzoneHeight = document.querySelector('.tank-zone').offsetHeight;
@@ -19,7 +35,7 @@ function App({hitMonster}) {
         setListBulletMove([...ListBulletMove])
         setListBulletPosition([...ListBulletPosition])
         setListBullet([...ListBullet])
-    },1000)
+    },TankState.firerate)
 
     useInterval(()=>{
         ListBulletMove.forEach((el,idx)=>{
@@ -30,7 +46,7 @@ function App({hitMonster}) {
                 ListBulletMove.splice(idx, 1)
                 ListBullet.splice(idx,1)
                 ListBulletPosition.splice(idx,1)
-                hitMonster()
+                if(!IsMonsterDead) hitMonster()
             }
         })
         setListBulletMove([...ListBulletMove])

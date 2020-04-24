@@ -7,6 +7,7 @@ function App({MonsterState,IsMonsterDead}) {
     <div className="monster-zone">
       <Monster
       IsMonsterDead = {IsMonsterDead}
+      MonsterState={MonsterState}
       />
       <MonsterHP
       MonsterState = {MonsterState}

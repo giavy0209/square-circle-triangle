@@ -1,7 +1,7 @@
 import React , { useEffect, useState , useCallback} from 'react';
-function App({IsMonsterDead}) {
+function App({IsMonsterDead,MonsterState}) {
   return (
-    <div className="monster" style={IsMonsterDead ? {opacity:  0} : { opacity : 1 } }>
+    <div className={'monster monster-' + MonsterState.type} style={IsMonsterDead ? {opacity:  0} : { opacity : 1 } }>
       
     </div>
     );
