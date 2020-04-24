@@ -75,6 +75,7 @@ function App({hitMonster,StatFireRate,setStatFireRate,IsMonsterDead}) {
 
   return (
     <div className="tank-zone">
+        <p style={{textAlign:'center'}}>Click here to shot</p>
         <Tank
         TankMove={TankMove}
         setTankMove={setTankMove}
