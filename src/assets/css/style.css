@@ -15,13 +15,19 @@ img{
     position: relative;
     overflow:  hidden;
     margin: 0 auto;
-    background-color: #fff;
 }
-
+.game.day{
+    background-image: url(../images/bg-day.jpg);
+}
+.game.night{
+    background-image: url(../images/bg.jpg);
+}
 .game > *{
     position: absolute;
     width: 100%;
 }
+
+
 
 .level-zone{
     height: 50px;
@@ -32,11 +38,11 @@ img{
 .monster-zone{
     top: 50px;
     left: 0;
-    background-color: #fff;
     height: calc(40% - 50px);
 }
 
 .monster-hp-bar{
+    background-color: #ccc;
     width: 100%;
     position: absolute;
     top: 0;
@@ -298,8 +304,8 @@ img{
     bottom: 0;
     left: 0;
     border-top: 29px solid red;
-    border-left: 29px solid #eee;
-    border-right: 29px solid #eee;
+    border-left: 29px solid transparent;
+    border-right: 29px solid transparent;
   }  
 .monster-20{
     width: 0;
@@ -320,26 +326,27 @@ img{
   }
 .bird-zone{
     position: absolute;
-    top: 20%;
+    top: 20px;
     left: 0;
     width: 100%;
+    z-index: 999;
 }
 
 @keyframes bird-move {
     0%{
-        top: 0;
+        top:0px;
     }
     25%{
-        top: 5px;
+        top:5px;
     }
     50%{
-        top: 10px;
+        top:10px;
     }
     75%{
-        top: 5px;
+        top:5px;
     }
     100%{
-        top: 0;
+        top:0px;
     }
 }
 
@@ -349,11 +356,26 @@ img{
     animation-name: bird-move;
     animation-duration: 1s;
     animation-iteration-count: infinite;
-    transition: all 2s cubic-bezier(0,0,0,0);
 }
 
 .bird.to-right{
     transform: rotateY(180deg);
+}
+
+.cloud{
+    width: 100px;
+    top: 0;
+    left: 0;
+    transition: all 3s cubic-bezier(0,0,0,0);
+    position: absolute;
+}
+
+.sun{
+    position: absolute;
+    top: 50;
+    right: 0;
+    width: 100px;
+    transition:  all 1s cubic-bezier(0,0,0,0);
 }
 
 .tank-zone{
@@ -421,6 +443,7 @@ img{
     background-color:  blue;
     border-radius: 50%;
     transform: translate(-50% , -50%);
+    /* transition: all .2s cubic-bezier(0,0,0,0); */
 }
 
 .upgrade-zone{

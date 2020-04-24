@@ -5,25 +5,48 @@ import TankZone from './components/TankZone'
 import UpgradeZone from './components/UpgradeZone'
 
 import baseMonster from './components/baseMonster'
-import baseTank from './components/baseTank'
+import tank from './components/TankState/index.js'
+
+import chance from './components/chanceHelper'
+
+const {
+  crit,
+  critdmg,
+  dmg,
+  firerate,
+  gold
+} = tank
+
 
 
 function App() {
+  const [ScreenWidth, setScreenWidth] = useState(0)
+  const [IsDay, setIsDay] = useState(true)
+
+  useEffect(()=>{
+    setScreenWidth(document.querySelector('.game').offsetWidth)
+  },[])
+
   const [Level, setLevel] = useState(1)
   const [SubLevel, setSubLevel] = useState(0)
-  const [BaseMonster,setBaseMonster] = useState(baseMonster)
   const [MonsterState, setMonsterState] = useState({
+    HP: Math.ceil(baseMonster.HP * Level),
+    currentHP: Math.ceil(baseMonster.HP * Level),
+    gold: Math.floor(baseMonster.gold * Level),
     type: Math.round(Math.random() * 19 + 1),
-    HP: BaseMonster.HP + (BaseMonster.HP * (Level - 1) / 100 ),
-    currentHP: BaseMonster.HP + (BaseMonster.HP * (Level - 1) / 100 ),
-    gold: BaseMonster.gold + (BaseMonster.gold * (Level - 1) / 100 ),
   })
 
-  const [Gold, setGold] = useState(50)
+  const [Gold, setGold] = useState(0)
 
-  const [TankState, setTankState] = useState(baseTank)
+  const [StatDmg, setStatDmg] = useState(dmg)
+  const [StatFireRate, setStatFireRate] = useState(firerate)
+  const [StatCrit, setStatCrit] = useState(crit)
+  const [StatCritDmg, setStatCritDmg] = useState(critdmg)
+  const [StatGold, setStatGold] = useState(gold)
 
   const [IsMonsterDead, setIsMonsterDead] = useState(false)
+
+  const [MonsterMutiple, setMonsterMutiple] = useState(1)
 
   const increaseLevel = useCallback(()=>{
     if(SubLevel < 10){
@@ -31,6 +54,7 @@ function App() {
     }else{
       setSubLevel(0)
       setLevel( Level + 1 )
+      setMonsterMutiple(MonsterMutiple + MonsterMutiple * 0.5)
     }
   },[Level, SubLevel])
 
@@ -43,63 +67,77 @@ function App() {
         monsterMultiple = 2
       }
     }
-
-    setGold( Gold + MonsterState.gold + (MonsterState.gold * TankState.goldRate / 100)) 
-
-    setMonsterState({
-      type: Math.round(Math.random() * 19 + 1),
-      HP: Math.ceil((BaseMonster.HP + (BaseMonster.HP * (Level - 1) / 100 )) * monsterMultiple),
-      currentHP: Math.ceil((BaseMonster.HP + (BaseMonster.HP * (Level - 1) / 100 )) * monsterMultiple),
-      gold: Math.floor((BaseMonster.gold + (BaseMonster.gold * (Level - 1) / 100 )) * monsterMultiple),
-    })
-    setIsMonsterDead(false)
-    if(SubLevel === 10){
-      setBaseMonster({
-        HP: Math.ceil((BaseMonster.HP + (BaseMonster.HP * (Level - 1) / 100 )) * monsterMultiple),
-        currentHP: Math.ceil((BaseMonster.HP + (BaseMonster.HP * (Level - 1) / 100 )) * monsterMultiple),
-        gold: Math.floor((BaseMonster.gold + (BaseMonster.gold * (Level - 1) / 100 )) * monsterMultiple),
-      })
-    }
     increaseLevel()
-  },[Level,BaseMonster,MonsterState,SubLevel])
 
-  const hitMonster = useCallback(()=>{
-    if(MonsterState.currentHP > 0){
+    if(SubLevel === 10){
       setMonsterState({
-        ...MonsterState,
-        currentHP: MonsterState.currentHP - TankState.dmg,
+        HP: Math.ceil((baseMonster.HP * (Level + 1)) * monsterMultiple * (MonsterMutiple + MonsterMutiple * 0.5)),
+        currentHP: Math.ceil((baseMonster.HP * (Level + 1)) * monsterMultiple * (MonsterMutiple + MonsterMutiple * 0.5)),
+        gold: Math.floor(baseMonster.gold * (Level + 1) * monsterMultiple ),
+        type: Math.round(Math.random() * 19 + 1),
       })
     }else{
-      setTimeout(() => {
-        createNewMonster()
-      }, 500);
-      setIsMonsterDead(true)
+      setMonsterState({
+        HP: Math.ceil((baseMonster.HP * Level) * monsterMultiple * MonsterMutiple),
+        currentHP: Math.ceil((baseMonster.HP * Level) * monsterMultiple * MonsterMutiple),
+        gold: Math.floor(baseMonster.gold * Level * monsterMultiple),
+        type: Math.round(Math.random() * 19 + 1),
+      })
     }
-  },[MonsterState,TankState])
+    setIsMonsterDead(false)
+  },[Level,baseMonster,MonsterState,SubLevel,])
+
+  const hitMonster = useCallback(()=>{
+    var isCrit = chance(StatCrit.stat)
+
+    var currentHP = isCrit ? Math.ceil(MonsterState.currentHP - (StatDmg.stat + StatDmg.stat * StatCritDmg.stat / 100)) : Math.floor(MonsterState.currentHP - StatDmg.stat);
+      setMonsterState({
+        ...MonsterState,
+        currentHP: currentHP,
+      })
+      if(currentHP <= 0){
+        setGold( Gold + MonsterState.gold + (MonsterState.gold * StatGold.stat / 100)) 
+        setTimeout(() => {
+          createNewMonster()
+        }, 500);
+        setIsMonsterDead(true)
+      }
+  },[MonsterState,StatDmg,StatGold,Gold,StatCrit,StatCritDmg])
 
   return (
     <>
-      <div className="game">
+      <div className={ IsDay ? 'game day' : 'game night'} >
         <LevelZone
         Level = {Level}
         SubLevel = {SubLevel}
         />
         <MonsterZone
+        ScreenWidth={ScreenWidth}
+        setIsDay={setIsDay}
+        IsDay={IsDay}
         MonsterState = {MonsterState}
         IsMonsterDead = {IsMonsterDead}
         MonsterState={MonsterState}
         />
         <TankZone
         hitMonster={hitMonster}
-        TankState = {TankState}
-        setTankState={setTankState}
+        StatFireRate = {StatFireRate}
+        setStatFireRate={setStatFireRate}
         IsMonsterDead = {IsMonsterDead}
         />
         <UpgradeZone
         Gold = {Gold}
         setGold = {setGold}
-        TankState = {TankState}
-        setTankState={setTankState}
+        StatDmg = {StatDmg}
+        setStatDmg={setStatDmg}
+        StatFireRate = {StatFireRate}
+        setStatFireRate={setStatFireRate}
+        StatCrit = {StatCrit}
+        setStatCrit={setStatCrit}
+        StatCritDmg = {StatCritDmg}
+        setStatCritDmg={setStatCritDmg}
+        StatGold = {StatGold}
+        setStatGold={setStatGold}
         />
       </div>
     </>

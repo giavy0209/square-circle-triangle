@@ -1,31 +1,49 @@
-import React , { useEffect, useState , useCallback,useRef} from 'react';
+import React , { useEffect, useState , useCallback,useMemo} from 'react';
+import useEventListener from './useEventListener'
 import Tank from './Tank'
 import Bullet from './Bullet'
 import useInterval from './useInterval'
-var timeOut;
 
-function App({hitMonster,TankState,setTankState,IsMonsterDead}) {
+function App({hitMonster,StatFireRate,setStatFireRate,IsMonsterDead}) {
     const [TankMove, setTankMove] = useState({position: 0, dirrectLeft: false})
     
     const [ListBullet,setListBullet] = useState([])
+    const [IsClickAble,setIsClickAble] = useState(true)
     const [ListBulletMove,setListBulletMove] = useState([])
     const [ListBulletPosition,setListBulletPosition] = useState([])
 
-    useEffect(()=>{
-        document.querySelector('.tank-zone').addEventListener('click',()=>{
-            clearTimeout(timeOut)
-            setTankState({
-                ...TankState,
-                firerate : TankState.firerate / 10
-            })
-            timeOut = setTimeout(() => {
-                setTankState({
-                    ...TankState,
-                    firerate : TankState.firerate
-                })
-            }, 500);
-        })
-    },[])
+
+    useEventListener('click', ()=>{
+        var tankzoneHeight = document.querySelector('.tank-zone').offsetHeight;
+        if(IsClickAble){
+            setIsClickAble(false)
+            ListBullet.push(false)
+            ListBulletMove.push(tankzoneHeight / 2)
+            ListBulletPosition.push(TankMove.position)
+            setListBulletMove([...ListBulletMove])
+            setListBulletPosition([...ListBulletPosition])
+            setListBullet([...ListBullet])
+        }
+
+    },document.querySelector('.tank-zone'))
+    
+    useInterval(()=>{
+        console.log(ListBullet.length,ListBulletMove.length,ListBulletPosition.length)
+        if(ListBullet.length !== ListBulletMove.length || ListBullet.length !==ListBulletPosition.length || ListBulletMove.length !== ListBulletPosition.length){
+            var arr = [];
+            setListBullet([...arr])
+            setListBulletMove([...arr])
+            setListBulletPosition([...arr])
+        }
+    },1000)
+
+    useEffect(()=> {
+        if(!IsClickAble){
+            setTimeout(() => {
+                setIsClickAble(true)
+            }, 33.3333);
+        }
+    },[IsClickAble])
 
     useInterval(()=>{
         var tankzoneHeight = document.querySelector('.tank-zone').offsetHeight;
@@ -35,11 +53,11 @@ function App({hitMonster,TankState,setTankState,IsMonsterDead}) {
         setListBulletMove([...ListBulletMove])
         setListBulletPosition([...ListBulletPosition])
         setListBullet([...ListBullet])
-    },TankState.firerate)
+    },StatFireRate.stat)
 
     useInterval(()=>{
         ListBulletMove.forEach((el,idx)=>{
-            ListBulletMove[idx] = el - 4;
+            ListBulletMove[idx] = el - 8;
         })
         ListBulletMove.forEach((el,idx)=>{
             if(el < -50){
@@ -52,8 +70,8 @@ function App({hitMonster,TankState,setTankState,IsMonsterDead}) {
         setListBulletMove([...ListBulletMove])
         setListBulletPosition([...ListBulletPosition])
         setListBullet([...ListBullet])
-    },5)
-    
+    },10)
+
 
   return (
     <div className="tank-zone">
