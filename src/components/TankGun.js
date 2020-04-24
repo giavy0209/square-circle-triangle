@@ -2,9 +2,9 @@ import React , { useEffect, useState , useCallback} from 'react';
 function App() {
   
   return (
-    <>
-    <div className="merge-area"></div>
-    </>
+    <div className="tank-gun">
+
+    </div>
   );
 }
 
